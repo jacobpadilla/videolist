@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Video Library</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container py-4">
+    <h1 class="mb-4">📽️ My Video Library</h1>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        {% for video in videos %}
+        <div class="col">
+            <div class="card h-100">
+                <img src="{{ video.thumb_url }}" class="card-img-top" alt="Thumbnail">
+                <div class="card-body">
+                    <h5 class="card-title text-truncate" title="{{ video.name }}">{{ video.name }}</h5>
+                    <p class="card-text small">
+                        <strong>Duration:</strong> {{ video.duration }}<br>
+                        <strong>Res:</strong> {{ video.resolution }}<br>
+                        <strong>Codec:</strong> {{ video.codec }}
+                    </p>
+                    <a href="{{ video.video_url }}" class="btn btn-primary btn-sm">Download/Play</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>

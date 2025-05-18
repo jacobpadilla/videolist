@@ -29,3 +29,39 @@ This is a simple, lightweight Flask web app for browsing and watching your home 
 video_folder = /your/path/to/videos
 supported_extensions = .mkv,.mp4,.avi,.mov
 thumbnail_time = 300
+
+
+## 🛠️ Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/yourusername/home-video-server.git
+cd home-video-server
+```
+
+### 2. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Set Your Video Folder
+
+Edit `config/settings.ini` and set `video_folder` to the full path where your video files live.
+
+```ini
+[general]
+video_folder = /your/path/to/videos
+supported_extensions = .mkv,.mp4,.avi,.mov
+thumbnail_time = 300
+```
+
+### 4. Run the App
+
+```bash
+python app.py
+```
+
+Then open your browser and visit:  
+[http://localhost:5000](http://localhost:5000)

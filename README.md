@@ -29,7 +29,7 @@ This is a simple, lightweight Flask web app for browsing and watching your home 
 video_folder = /your/path/to/videos
 supported_extensions = .mkv,.mp4,.avi,.mov
 thumbnail_time = 300
-
+```
 
 ## 🛠️ Getting Started
 

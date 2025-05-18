@@ -9,7 +9,10 @@ CONFIG_PATH = 'config/settings.ini'
 def load_thumbnail_time(config_path=CONFIG_PATH) -> int:
     config = configparser.ConfigParser()
     config.read(config_path)
-    return int(config.get('general', 'thumbnail_time', fallback='300'))
+    raw_value = config.get('general', 'thumbnail_time', fallback='300')
+    time_str = raw_value.split(';')[0].strip()  # Remove any comment
+    return int(time_str)
+
 
 def get_thumb_filename(video_path: str) -> str:
     # Create a unique ID using a hash of the full file path
@@ -19,6 +22,8 @@ def get_thumb_filename(video_path: str) -> str:
 def get_thumb_path(video_path: str) -> str:
     return os.path.join(THUMB_DIR, get_thumb_filename(video_path))
 
+from utils.metadata import extract_metadata  # Add this import at the top
+
 def generate_thumbnail(video_path: str, force: bool = False) -> str:
     os.makedirs(THUMB_DIR, exist_ok=True)
     thumb_path = get_thumb_path(video_path)
@@ -26,13 +31,17 @@ def generate_thumbnail(video_path: str, force: bool = False) -> str:
     if not force and os.path.exists(thumb_path):
         return thumb_path  # Already cached
 
-    thumbnail_time = load_thumbnail_time()
+    configured_time = load_thumbnail_time()
+    duration = extract_metadata(video_path).get('duration', 0)
+
+    # Use the smaller of configured time or half the duration
+    seek_time = min(configured_time, int(duration // 2)) if duration > 0 else configured_time
 
     try:
         (
             ffmpeg
-            .input(video_path, ss=thumbnail_time)
-            .filter('scale', 320, -1)  # Resize thumbnail width to 320px, maintain aspect ratio
+            .input(video_path, ss=seek_time)
+            .filter('scale', 320, -1)  # Resize thumbnail width to 320px, keep aspect
             .output(thumb_path, vframes=1)
             .overwrite_output()
             .run(quiet=True)

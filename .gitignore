@@ -1,2 +1,3 @@
 .DS_Store
-.jpg
+static/thumbs/*.jpg
+utils/__pycache__/*.pyc
